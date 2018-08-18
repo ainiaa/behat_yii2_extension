@@ -25,20 +25,14 @@ Installation
 ```json
 {
     "require-dev": {
-        "behat/behat": "^3.5",
-        "phpunit/phpunit": "^7.3",
-        "behat/mink": "^1.7",
-        "behat/mink-extension": "^2.3",
-        "behat/mink-goutte-driver": "^1.2",
-        "behat/mink-selenium2-driver": "^1.3",
-        "behat/mink-browserkit-driver": "^1.3"
+        "behat/behat": "^3.5"
     }
 }
 
 ```
 
 ```bash
-$ composer update 'behat/mink' 'behat/mink-extension' 'behatx/yiix-extension'
+$ composer update 'behatx/yiix-extension'
 ```
 
 Copyright
