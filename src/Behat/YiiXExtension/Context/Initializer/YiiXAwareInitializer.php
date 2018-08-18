@@ -36,17 +36,18 @@ class YiiXAwareInitializer implements ContextInitializer
     {
         defined('YII_DEBUG') or define('YII_DEBUG', true);
         require_once($frameworkScript);
-        $config = [];
+        $finalConfig = [];
         if ($configScript)
         {
             foreach ($configScript as $script)
             {
                 $currentConfig = include $script;
-                $config        = array_merge($config, $currentConfig);
+                $finalConfig   = array_merge_recursive($finalConfig, $currentConfig);
             }
         }
-        $this->config      = $config;
-        $this->application = new $application($configScript);
+        $this->config = $finalConfig;
+        $applicationObject = new $application($this->config);
+        $this->application = $applicationObject;
         if (method_exists($this->application, 'init'))
         {
             $this->application->init();

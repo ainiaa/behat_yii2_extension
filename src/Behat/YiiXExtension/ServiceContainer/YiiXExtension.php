@@ -41,8 +41,6 @@ class YiiXExtension implements ExtensionInterface
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__));
         $loader->load('yiix.xml');
 
-        $this->loadContextInitializer($container);
-
         if (!isset($config['framework_script']))
         {
             throw new \InvalidArgumentException('Specify `framework_script` parameter for yiix_extension.');
@@ -83,13 +81,16 @@ class YiiXExtension implements ExtensionInterface
         }
         $container->setParameter('yiix.application_class_name', $config['application_class_name']);
 
+        $this->loadContextInitializer($container);
+
     }
 
     private function loadContextInitializer(ContainerBuilder $container)
     {
         $definition = new Definition('Behat\YiiXExtension\Context\Initializer\YiiXAwareInitializer', array(
-            new Reference(self::YIIX_ID),
-            '%yiix.parameters%',
+            $container->getParameter('yiix.framework_script'),
+            $container->getParameter('yiix.config_script'),
+            $container->getParameter('yiix.application_class_name'),
         ));
         $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
         $container->setDefinition('yiix.context_initializer', $definition);
@@ -133,6 +134,6 @@ class YiiXExtension implements ExtensionInterface
      */
     public function configure(ArrayNodeDefinition $builder)
     {
-        $builder->children()->scalarNode('framework_script')->isRequired()->end()->arrayNode('config_script')->performNoDeepMerging()->defaultValue(array())->prototype('scalar')->end()->end()->scalarNode('application_class_name')->isRequired()->end()->end();
+        $builder->children()->scalarNode('file_path_style')->defaultValue('absolute')->end()->scalarNode('parameters')->defaultValue('')->end()->scalarNode('framework_script')->isRequired()->end()->arrayNode('config_script')->performNoDeepMerging()->defaultValue(array())->prototype('scalar')->end()->end()->scalarNode('application_class_name')->isRequired()->end()->end();
     }
 }
