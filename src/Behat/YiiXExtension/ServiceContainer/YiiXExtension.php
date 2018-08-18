@@ -9,22 +9,26 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Behat\YiiXExtension;
+namespace Behat\YiiXExtension\ServiceContainer;
 
+use Behat\Behat\Context\ServiceContainer\ContextExtension;
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Yii extension for Behat class.
  *
  * @author Jeff Liu <jeff.liu.guo@gmail.com>
  */
-class Extension implements ExtensionInterface
+class YiiXExtension implements ExtensionInterface
 {
+    const YIIX_ID = 'yiix';
 
     /**
      * Loads a specific configuration.
@@ -34,9 +38,10 @@ class Extension implements ExtensionInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/services'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__));
         $loader->load('yiix.xml');
 
+        $this->loadContextInitializer($container);
 
         if (!isset($config['framework_script']))
         {
@@ -78,6 +83,16 @@ class Extension implements ExtensionInterface
         }
         $container->setParameter('yiix.application_class_name', $config['application_class_name']);
 
+    }
+
+    private function loadContextInitializer(ContainerBuilder $container)
+    {
+        $definition = new Definition('Behat\YiiXExtension\Context\Initializer\YiiXAwareInitializer', array(
+            new Reference(self::YIIX_ID),
+            '%yiix.parameters%',
+        ));
+        $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
+        $container->setDefinition('yiix.context_initializer', $definition);
     }
 
     /**
