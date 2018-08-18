@@ -1,0 +1,32 @@
+{
+    "name": "behatx/yiix-extension",
+    "type": "behat-extension",
+    "description": "Yiix framework extension for Behat",
+    "keywords": ["framework", "web", "bdd"],
+    "homepage": "http://behat.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeff Liu",
+            "email": "jeff.liu.guo@gmail.com"
+        }
+    ],
+
+    "require": {
+        "php":          ">=5.3.2",
+        "behat/behat":  "~3.5"
+    },
+
+    "suggest": {
+    },
+
+    "autoload": {
+        "psr-0": { "Behat\\YiiXExtension": "src/" }
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
