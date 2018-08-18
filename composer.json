@@ -1,11 +1,11 @@
 {
     "name": "behatx/yiix-extension",
     "type": "behat-extension",
-    "description": "Yiix framework extension for Behat",
+    "description": "Yii2 framework extension for Behat 3.5.0",
     "keywords": ["framework", "web", "bdd"],
     "homepage": "http://behat.org",
     "license": "MIT",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "authors": [
         {
             "name": "Jeff Liu",
