@@ -14,7 +14,7 @@
         <service id="behat.yiix_extension.context.initializer" class="%behat.yiix_extension.context.initializer.class%">
             <argument>%behat.yiix_extension.framework_script%</argument>
             <argument>%behat.yiix_extension.config_script%</argument>
-            <argument>%behat.yiix_extension.web_application_factory%</argument>
+            <argument>%behat.yiix_extension.application_class_name%</argument>
             <tag name="behat.context.initializer" />
         </service>
     </services>

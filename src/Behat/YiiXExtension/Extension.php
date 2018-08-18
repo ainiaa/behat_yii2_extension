@@ -36,35 +36,47 @@ class Extension implements ExtensionInterface
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/services'));
         $loader->load('yiix.xml');
-        $basePath = $container->getParameter('behat.paths.base');
 
-        $extensions = $container->getParameter('behat.extension.classes');
 
         if (!isset($config['framework_script']))
         {
             throw new \InvalidArgumentException('Specify `framework_script` parameter for yiix_extension.');
         }
+
+        if ($config['file_path_style'] == 'relative')
+        {//relative
+            $basePath = $container->getParameter('paths.base');
+        }
+        else
+        {//absolute
+            $basePath = '';//
+        }
         if (file_exists($cfg = $basePath . DIRECTORY_SEPARATOR . $config['framework_script']))
         {
             $config['framework_script'] = $cfg;
         }
-        $container->setParameter('behat.yiix_extension.framework_script', $config['framework_script']);
+        $container->setParameter('yiix.framework_script', $config['framework_script']);
 
         if (!isset($config['config_script']))
         {
             throw new \InvalidArgumentException('Specify `config_script` parameter for yiix_extension.');
         }
-        if (file_exists($cfg = $basePath . DIRECTORY_SEPARATOR . $config['config_script']))
+
+        foreach ($config['config_script'] as $index => $configScript)
         {
-            $config['config_script'] = $cfg;
+            if (!file_exists($cfg = $basePath . DIRECTORY_SEPARATOR . $configScript))
+            {
+                unset($config['config_script'][$index]);
+            }
         }
-        $container->setParameter('behat.yiix_extension.config_script', $config['config_script']);
+
+        $container->setParameter('yiix.config_script', $config['config_script']);
 
         if (!isset($config['application_class_name']))
         {
             throw new \InvalidArgumentException('Specify `application_class_name` parameter for yiix_extension.');
         }
-        $container->setParameter('behat.yiix_extension.application_class_name', $config['application_class_name']);
+        $container->setParameter('yiix.application_class_name', $config['application_class_name']);
 
     }
 
@@ -106,6 +118,6 @@ class Extension implements ExtensionInterface
      */
     public function configure(ArrayNodeDefinition $builder)
     {
-        $builder->children()->scalarNode('framework_script')->isRequired()->end()->scalarNode('config_script')->isRequired()->end()->scalarNode('application_class_name')->isRequired()->end()->end();
+        $builder->children()->scalarNode('framework_script')->isRequired()->end()->arrayNode('config_script')->performNoDeepMerging()->defaultValue(array())->prototype('scalar')->end()->end()->scalarNode('application_class_name')->isRequired()->end()->end();
     }
 }

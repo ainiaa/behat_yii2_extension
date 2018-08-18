@@ -10,12 +10,12 @@ Behat configuration
 
 ```yml
 default:
-  extensions:
-
-    Behat\YiiXExtension\Extension:
-      framework_script: ../../framework/yii.php
-      config_script: ../config/test.php
-      application_class_name: yii\web\Application
+    extensions:
+        Behat\YiiXExtension\Extension:
+            file_path_style: relative | absolute
+            framework_script: ../../framework/yii.php
+            config_script: ../config/test.php
+            application_class_name: yii\web\Application
 ```
 
 Installation
