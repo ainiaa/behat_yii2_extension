@@ -3,7 +3,7 @@ YiiXExtension
 
 Provides integration layer for the [Yii framework](http://www.yiiframework.com/):
 
-between Behat 3.5+ and Yii.
+between Behat 3.5+ and Yii2.
 
 Behat configuration
 -------------------
@@ -11,11 +11,12 @@ Behat configuration
 ```yml
 default:
     extensions:
-        Behat\YiiXExtension\Extension:
-            file_path_style: relative | absolute
-            framework_script: ../../framework/yii.php
-            config_script: ../config/test.php
-            application_class_name: yii\web\Application
+        Behat\YiiXExtension\ServiceContainer\YiiXExtension:
+              file_path_style: absolute
+              framework_script: '/usr/src/php_library/yii2_framework/Yii.php'
+              config_script: [ '/wwwroot/scm.ddxq.mobi/src/config/dev.php','/wwwroot/scm.ddxq.mobi/src/config/base_admin.php']
+              application_class_name: yii\web\Application
+              parameters: ~
 ```
 
 Installation
