@@ -5,6 +5,7 @@
     "keywords": ["framework", "web", "bdd"],
     "homepage": "http://behat.org",
     "license": "MIT",
+    "version": "0.1.0",
     "authors": [
         {
             "name": "Jeff Liu",
@@ -22,11 +23,5 @@
 
     "autoload": {
         "psr-0": { "Behat\\YiiXExtension": "src/" }
-    },
-
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1.x-dev"
-        }
     }
 }
