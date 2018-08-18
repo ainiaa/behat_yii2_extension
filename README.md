@@ -3,13 +3,7 @@ YiiXExtension
 
 Provides integration layer for the [Yii framework](http://www.yiiframework.com/):
 
-* Additional services for Behat (`Yii`, `Sessions`, `Drivers`)
-* `Behat\MinkExtension\Context\YiiAwareInterface` which provides `CWebApplication`
-  instance for your contexts or subcontexts
-* Additional `wunit` session (sets as default) for Mink (if MinkExtension is installed)
-  for functional testing without Selenium through [wunit](http://www.yiiframework.com/extension/wunit)
-
-between Behat 2.5+ and Yii.
+between Behat 3.5+ and Yii.
 
 Behat configuration
 -------------------
